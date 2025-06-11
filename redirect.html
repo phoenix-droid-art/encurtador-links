@@ -25,23 +25,37 @@
   </style>
 </head>
 <body>
-  <img src="https://raw.githubusercontent.com/phoenix-droid-art/phoenix-form/refs/heads/main/assets/Logo-Phoenix.png" class="logo" alt="Logo Phoenix">
+  <img src="https://via.placeholder.com/200x200.png?text=Sua+Logo" class="logo" alt="Logo da Empresa">
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const shortId = urlParams.get('id');
-    const scriptUrl = 'SUA_URL_DO_APPS_SCRIPT'; // Substitua pela URL do Apps Script
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbxXKkNYyiNHpuwKwzkSuTNaxSBpM-aLvs9Pqo2ivVZTafBpEoV0UddbctbUN3yAu4wO/exec'; // Substitua pela nova URL, se necessário
 
-    fetch(`${scriptUrl}?shortId=${shortId}`)
-      .then(response => response.json())
+    fetch(`${scriptUrl}?shortId=${shortId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         if (data.url) {
           setTimeout(() => {
             window.location.href = data.url;
-          }, 3000); // Redireciona após 3 segundos
+          }, 3000);
         } else {
           alert('Link inválido ou expirado.');
           window.location.href = '/';
         }
+      })
+      .catch(error => {
+        alert('Erro ao redirecionar: ' + error.message);
+        console.error(error);
       });
   </script>
 </body>
