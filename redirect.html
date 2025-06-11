@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecionando...</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+    }
+    .logo {
+      width: 200px;
+      animation: fadeInOut 3s ease-in-out forwards;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://raw.githubusercontent.com/phoenix-droid-art/phoenix-form/refs/heads/main/assets/Logo-Phoenix.png" class="logo" alt="Logo Phoenix">
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const shortId = urlParams.get('id');
+    const scriptUrl = 'SUA_URL_DO_APPS_SCRIPT'; // Substitua pela URL do Apps Script
+
+    fetch(`${scriptUrl}?shortId=${shortId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.url) {
+          setTimeout(() => {
+            window.location.href = data.url;
+          }, 3000); // Redireciona após 3 segundos
+        } else {
+          alert('Link inválido ou expirado.');
+          window.location.href = '/';
+        }
+      });
+  </script>
+</body>
+</html>
